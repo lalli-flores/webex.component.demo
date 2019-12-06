@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, Fragment} from 'react';
+import webex from 'webex';
+import WebexSDKAdapter from '@webex/sdk-component-adapter';
+import {WebexAvatar, WebexDataProvider} from '@webex/components';
 
-function App() {
+async function App() {
+  const sdkAdapter = new WebexSDKAdapter(new webex({
+    credentials: 'VALID TOKEN',
+  }));
+
+  useEffect(() => {
+    (async function register() {
+      await sdkAdapter.connect();
+    })();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <WebexDataProvider adapter={sdkAdapter}>
+        <WebexAvatar personID="Y2lzY29zcGFyazovL3VzL1BFT1BMRS8zOTliZTMxZS0yYjRmLTQzOGYtYmUyNi1hNzRhZTZjY2U2MmM" />
+      </WebexDataProvider>
+    </Fragment>
   );
 }
 
